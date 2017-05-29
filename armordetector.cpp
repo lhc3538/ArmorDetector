@@ -49,18 +49,18 @@ int ArmorDetector::detectObject(Mat &image,Rect &pos)
     cvtColor( image, cvFrame_gray, CV_BGR2GRAY );
 //    equalizeHist( cvFrame_gray, cvFrame_gray );
 
-    RectUtil rect_util;
     /*get last_rects' public rect*/
-//    Rect roi_rect = predictor.getRoiRect(image.cols,image.rows);
-    Rect roi_rect = predictor.getRoiRect(cvFrame_gray);
-    Rect dyc_rect = predictor.getRoiRect(image.cols,image.rows);
+    RectUtil rect_util;
+    Rect roi_rect;
+    Rect dyc_rect;
+    roi_rect = predictor.getRoiRect(cvFrame_gray);
+    dyc_rect = predictor.getRoiRect(image.cols,image.rows);
     roi_rect = roi_rect & dyc_rect;
 
     rectangle(image,roi_rect,Scalar(255,0,0),3);
 
     if (!rect_util.isZeroRect(roi_rect))
     {
-//        cout << roi_rect.x << " " << roi_rect.y << " " << roi_rect.width << " " << roi_rect.height << endl;
         cvFrame_gray = cvFrame_gray(roi_rect);
     }
     vector<Rect> armors;
@@ -89,7 +89,7 @@ int ArmorDetector::detectObject(Mat &image,Rect &pos)
                               armors[0].width,
                               armors[0].height);
         predictor.push(real_rect);
-        pos = armors[0];
+        pos = real_rect;
         return 1;
     }
 }

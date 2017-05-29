@@ -58,8 +58,8 @@ Rect Predictor::getRoiRect(int width, int height)
     if(roi_rect.y+roi_rect.height > height)
         roi_rect.height = height - roi_rect.y;
 
-    cout << "x=" << roi_rect.x << ",y=" << roi_rect.y << ",width=" << roi_rect.width << ",height=" << roi_rect.height << endl;
-    cout << "zero_nums=" << zero_rect_nums << endl;
+//    cout << "x=" << roi_rect.x << ",y=" << roi_rect.y << ",width=" << roi_rect.width << ",height=" << roi_rect.height << endl;
+//    cout << "zero_nums=" << zero_rect_nums << endl;
     return roi_rect;
 }
 
@@ -69,39 +69,34 @@ Rect Predictor::getRoiRect(Mat &image)
     int x2 = image.cols, cols = image.cols;
     int y2 = image.rows, rows = image.rows;
 
-//    cout << "cols = " << cols << endl;
-//    cout << "rows = " << rows << endl;
     /* traverse every col from left */
     for (int c=0;c<cols;++c) {
 
         int r;
         for(r=0;r<rows;++r) {
-//            printf("%d,",image.at<uchar>(r,c));
             /* more white */
             if(image.at<uchar>(r,c)>90) {
                 x1 = c - 60;
-                cout << "x1=" << x1 << endl;
                 break;
             }
         }
         if(r!=rows)
             break;
     }
-//    /* traverse every col from right */
+    /* traverse every col from right */
     for (int c=cols-1;c>=0;--c) {
         int r;
         for(r=0;r<rows;++r) {
             /* more white */
             if(image.at<uchar>(r,c)>90) {
                 x2 = c + 60;
-                cout << "x2=" << x2 << endl;
                 break;
             }
         }
         if(r!=rows)
             break;
     }
-//    /* traverse every row from top */
+    /* traverse every row from top */
     for (int r=0;r<rows;++r) {
         int c;
         for(c=0;c<cols;++c) {
@@ -114,7 +109,7 @@ Rect Predictor::getRoiRect(Mat &image)
         if(c!=cols)
             break;
     }
-//    /* traverse every row from bottom */
+    /* traverse every row from bottom */
     for (int r=rows-1;r>=0;--r) {
         int c;
         for(c=0;c<cols;++c) {
@@ -136,8 +131,6 @@ Rect Predictor::getRoiRect(Mat &image)
         x2 = cols-1;
     if (y2 >= rows)
         y2 = rows-1;
-
-
 
     return Rect(x1,y1,x2-x1,y2-y1);
 }
